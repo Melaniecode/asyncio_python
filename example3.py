@@ -1,0 +1,28 @@
+import asyncio
+import time
+
+async def say_after(delay, what):
+  await asyncio.sleep(delay)
+  return f"{what} - {delay}"
+
+async def main():
+  # coroutine -> task
+  task1 = asyncio.create_task(
+    say_after(1, 'hello')
+  )
+  task2 = asyncio.create_task(
+    say_after(2, 'world')
+  )
+
+  print(f"started at {time.strftime('%X')}")
+
+  # 思考點： 那如果有很多個 task 不就要寫很多次嗎？ -> gather
+  ret1 = await task1
+  ret2 = await task2
+
+  print(ret1)
+  print(ret2)
+
+  print(f"finished at {time.strftime('%X')}")
+
+asyncio.run(main())
